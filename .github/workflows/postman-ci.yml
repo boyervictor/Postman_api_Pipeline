@@ -19,22 +19,24 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Newman and HTML Reporter
-        run: npm install -g newman newman-reporter-html
+      - name: Install Newman and HTML reporter
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-html
 
       - name: Crear carpeta para reporte
         run: mkdir -p output
 
-      - name: Run Postman Collection
+      - name: Run Postman Collection y generar reporte HTML
         run: |
           newman run collections/api-tests.postman_collection.json \
             --reporters cli,html \
             --reporter-html-export output/newman-report.html
 
-      - name: Verificar archivos generados
+      - name: Listar archivos en carpeta output (diagnóstico)
         run: ls -la output
 
-      - name: Mostrar contenido del reporte (opcional)
+      - name: Verificar contenido del reporte (diagnóstico)
         run: cat output/newman-report.html || echo "No se generó el archivo"
 
       - name: Guardar reporte como artefacto
@@ -43,6 +45,7 @@ jobs:
           name: newman-html-report
           path: output/newman-report.html
 
+   
         
 
 
