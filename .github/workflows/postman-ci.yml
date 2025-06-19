@@ -22,18 +22,30 @@ jobs:
       - name: Install Newman
         run: npm install -g newman
 
-      - name: Crear carpeta collections (si no existe)
-        run: mkdir -p collections
+      - name: Crear carpeta para reporte
+        run: mkdir -p output
 
       - name: Run Postman Collection
         run: |
-          newman run collections/api-tests.postman_collection.json --reporters cli,html --reporter-html-export newman-report.html
+          newman run collections/api-tests.postman_collection.json \
+            --reporters cli,html \
+            --reporter-html-export output/newman-report.html
+
+      - name: Verificar archivos generados
+        run: ls -la output
+
+      - name: Mostrar contenido del reporte (opcional)
+        run: cat output/newman-report.html || echo "No se generó el archivo"
 
       - name: Guardar reporte como artefacto
         uses: actions/upload-artifact@v4
         with:
           name: newman-html-report
-          path: newman-report.html
+          path: output/newman-report.html
+
+
+     
+          
 
       
 
