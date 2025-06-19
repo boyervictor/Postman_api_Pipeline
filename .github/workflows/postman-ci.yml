@@ -22,14 +22,18 @@ jobs:
       - name: Install Newman
         run: npm install -g newman
 
-      - name: Verificar estructura de archivos
-        run: |
-          echo "Contenido de la carpeta raíz:"
-          ls -la
-          echo "Contenido de la carpeta collections/:"
-          ls -la collections
+      - name: Crear carpeta collections (si no existe)
+        run: mkdir -p collections
 
       - name: Run Postman Collection
         run: |
           newman run collections/api-tests.postman_collection.json --reporters cli,html --reporter-html-export newman-report.html
 
+      - name: Guardar reporte como artefacto
+        uses: actions/upload-artifact@v3
+        with:
+          name: newman-html-report
+          path: newman-report.html
+
+    
+          
