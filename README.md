@@ -1,58 +1,55 @@
-# Postman_api_Pipeline
+# Postman API Pipeline
 
-Proyecto educativo de automatización de pruebas de APIs REST utilizando **Postman**, **Newman** y **GitHub Actions** para ejecutar las pruebas como parte de un flujo de **CI/CD** simple.
+![CI](https://github.com/boyervictor/Postman_api_Pipeline/actions/workflows/postman-ci.yml/badge.svg)
 
----
-
-## 📌 Objetivo
-
-Demostrar cómo crear, automatizar y ejecutar pruebas básicas de una API REST pública usando Postman y luego integrarlas con un pipeline automatizado en GitHub Actions.
+Este proyecto educativo demuestra cómo automatizar pruebas de una API REST utilizando Postman, Newman y GitHub Actions en un flujo CI/CD simple.
 
 ---
 
-## 🚀 Tecnologías utilizadas
+## 📦 Contenido
 
-- [Postman](https://www.postman.com/)
-- [Newman](https://www.npmjs.com/package/newman)
-- [GitHub Actions](https://docs.github.com/en/actions)
-- API pública: [JSONPlaceholder](https://jsonplaceholder.typicode.com)
+La colección incluye pruebas automatizadas para los siguientes endpoints de [https://jsonplaceholder.typicode.com/users](https://jsonplaceholder.typicode.com/users):
 
----
-
-## 🧪 Casos de prueba incluidos
-
-La colección incluye pruebas automatizadas para los siguientes endpoints de `https://jsonplaceholder.typicode.com/users`:
-
-| Método | Descripción              |
-|--------|--------------------------|
-| GET    | Obtener usuarios         |
-| POST   | Crear nuevo usuario      |
-| PUT    | Actualizar usuario (ID 1)|
-| DELETE | Eliminar usuario (ID 1)  |
+- **GET**: Listar usuarios
+- **POST**: Crear nuevo usuario
+- **PUT**: Actualizar usuario existente
+- **DELETE**: Eliminar usuario
 
 ---
 
-## 🛠 Estructura del proyecto
+## 🧪 Tecnologías utilizadas
 
-Postman_api_Pipeline/
-├── collections/
-│ └── api-tests.postman_collection.json
-├── environment/
-│ └── dev.postman_environment.json (opcional)
+- [Postman](https://www.postman.com/) – Para definir y ejecutar las pruebas.
+- [Newman](https://www.npmjs.com/package/newman) – Para ejecutar las colecciones desde la terminal o CI.
+- [GitHub Actions](https://docs.github.com/en/actions) – Para integrar las pruebas en un flujo de integración continua.
+
+---
+
+## ⚙️ Estructura del repositorio
+
 ├── .github/
 │ └── workflows/
-│ └── postman-ci.yml
+│ └── postman-ci.yml # Workflow que ejecuta Newman en cada push/pull request
+├── collections/
+│ └── api-tests.postman_collection.json # Colección con pruebas GET, POST, PUT, DELETE
+├── README.md
 
 
 ---
 
-## ⚙️ CI/CD con GitHub Actions
+## 🚀 Cómo se ejecutan las pruebas
 
-El archivo `postman-ci.yml` ejecuta automáticamente las pruebas de la colección cada vez que se hace `push` o `pull request` en la rama `main`.
+Cada vez que haces `push` o un `pull request` hacia la rama `main`, GitHub Actions ejecuta automáticamente el workflow definido en `.github/workflows/postman-ci.yml`.  
+Este workflow:
 
-```yaml
-# Resumen del pipeline:
-- Instala Node.js
-- Instala Newman
-- Ejecuta la colección de Postman
+1. Instala Node.js
+2. Instala Newman globalmente
+3. Ejecuta las pruebas con la colección `collections/api-tests.postman_collection.json`
+4. Genera un reporte HTML (`newman-report.html`)
 
+---
+
+## 📄 Ejemplo de ejecución (CLI)
+
+```bash
+newman run collections/api-tests.postman_collection.json --reporters cli,html --reporter-html-export newman-report.html
