@@ -20,9 +20,7 @@ jobs:
           node-version: '18'
 
       - name: Install Newman and HTML Reporter
-        run: |
-          npm install -g newman
-          npm install -g newman-reporter-html
+        run: npm install -g newman newman-reporter-html
 
       - name: Crear carpeta para reporte
         run: mkdir -p output
@@ -44,6 +42,9 @@ jobs:
         with:
           name: newman-html-report
           path: output/newman-report.html
+
+        
+
 
 
      
